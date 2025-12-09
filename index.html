@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leaf Disease Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="page-bg"></div>
+
+<div class="overlay-card">
+    <h1>Leaf Disease Detection</h1>
+
+    <div class="top-controls">
+        <input type="file" id="fileInput" accept="image/*">
+        <button id="predictBtn" onclick="sendImage()">Predict Leaf Disease</button>
+    </div>
+
+    <h2 class="section-title">Original Image</h2>
+
+    <div class="image-wrapper">
+        <img id="previewImg" alt="Uploaded leaf will appear here">
+    </div>
+
+    <div id="predictionBox">
+        <div id="predictionText"></div>
+        <div id="confidenceText"></div>
+    </div>
+</div>
+
+<script>
+    // show preview
+    const fileInput = document.getElementById("fileInput");
+    const previewImg = document.getElementById("previewImg");
+
+    fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+        if (!file) {
+            previewImg.src = "";
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = e => {
+            previewImg.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    async function sendImage() {
+        const file = fileInput.files[0];
+        if (!file) {
+            alert("Please choose an image first.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const btn = document.getElementById("predictBtn");
+        btn.disabled = true;
+        btn.innerText = "Predicting...";
+
+        try {
+            const res = await fetch("/predict", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await res.json();
+
+            if (data.error) {
+                document.getElementById("predictionText").innerText =
+                    "Error: " + data.error;
+                document.getElementById("confidenceText").innerText = "";
+            } else {
+                document.getElementById("predictionText").innerText =
+                    "Predicted Disease: " + data.label;
+
+                document.getElementById("confidenceText").innerText =
+                    "Confidence: " + (data.confidence * 100).toFixed(2) + "%";
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Predict Leaf Disease";
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+/* Full-page base styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Leaf background image (put leaf_bg.jpg in /static) */
+.page-bg {
+    position: fixed;
+    inset: 0;
+    background: url("/static/leaf_bg.png") center/cover no-repeat;
+    filter: blur(2px);
+    z-index: -2;
+}
+
+/* Glass-like central card */
+.overlay-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    max-width: 800px;
+    padding: 25px 30px 35px;
+    background: rgba(0, 0, 0, 0.65);
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+.overlay-card h1 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+/* Top row: file input + button */
+.top-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* File input styling */
+input[type="file"] {
+    color: #fff;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: #ffffff;
+    color: #000;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #e6e6e6;
+}
+
+/* Predict button */
+button {
+    padding: 9px 18px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    background-color: #00a854;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.35);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: default;
+    box-shadow: none;
+}
+
+button:hover:not(:disabled) {
+    background-color: #009047;
+}
+
+/* Section title above image */
+.section-title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    text-decoration: underline;
+}
+
+/* Image area */
+.image-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+#previewImg {
+    max-height: 260px;
+    max-width: 260px;
+    border-radius: 6px;
+    border: 2px solid #ffffff;
+    object-fit: cover;
+    background-color: #222;
+}
+
+/* Prediction + confidence box */
+#predictionBox {
+    margin-top: 15px;
+}
+
+#predictionText {
+    font-size: 20px;
+    font-weight: bold;
+    color: #00ff99;
+    text-shadow: 0 0 6px rgba(0, 255, 0, 0.7);
+    margin-bottom: 8px;
+}
+
+#confidenceText {
+    font-size: 18px;
+    color: #b2ffda;
+}
